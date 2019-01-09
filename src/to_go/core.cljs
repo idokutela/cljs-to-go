@@ -71,7 +71,6 @@
 (defn -handle-result
   "INTERNAL API: processes the result of a node-function call."
   [[err & results]]
-  (println err results)
   (when (some? err) (throw err))
   (if (<= (count results) 1)
     (first results)
