@@ -70,9 +70,18 @@
 
 (defn -handle-result
   "INTERNAL API: processes the result of a node-function call."
-  [[err result]]
-  (if (some? err) (throw err) result))
+  [[err & results]]
+  (println err results)
+  (when (some? err) (throw err))
+  (if (<= (count results) 1)
+    (first results)
+    results))
 
+
+(defn- apply-with-cb
+  "Applies f with `args` followed by `cb`"
+  [f args cb]
+  ((apply partial f args) cb))
 
 
 ;;; ReadPorts have one method: take!
@@ -93,8 +102,7 @@
 (defn -ReadPort<-node
   "INTERNAL API: Returns a ReadPort that wraps node function call."
   [f & args]
-  (let [thunk (apply partial f args)
-        val (atom nil)
+  (let [val (atom nil)
         the-handler (atom nil)
         port (reify
                impl/ReadPort
@@ -103,33 +111,26 @@
                    nil
                    (if-some [v @val]
                      (do
-                       #_((impl/commit handler) v)
+                       #_((impl/commit handler) v) ;; Don't double-spend
                        (-as-deref v))
                      (do
                        (assert (nil? @the-handler)
                                "One may only take once from a node fn!")
                        (reset! the-handler handler)
-                       nil)))))]
-    (thunk (fn [err & res]
-             (let [res (if (<= (count res) 1)
-                         (first res)
-                         res)]
-               (reset! val [err res])
-               (when-some [handler @the-handler]
-                 (reset! the-handler nil)
-                 (when (impl/active? handler)
-                   ((impl/commit handler) @val))))))
+                       nil)))))
+        cb (fn [& results]
+             (reset! val (or results '()))
+             (when-some [handler @the-handler]
+               (reset! the-handler nil)
+               (when (impl/active? handler)
+                 ((impl/commit handler) @val))))]
+    (apply-with-cb f args cb)
     port))
 
 (defn ch<-node
   "INTERNAL API: calls a node function and returns a channel with the result."
   [f & args]
   (let [ch (async/promise-chan)
-        thunk (apply partial f args)]
-    (thunk
-     (fn [err & res]
-       (let [res (if (<= (count res) 1)
-                   (first res)
-                   res)]
-         (async/put! ch [err res]))))
+        cb (fn [& results] (async/put! ch (or results '())))]
+    (apply-with-cb f args cb)
     ch))

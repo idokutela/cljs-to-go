@@ -24,6 +24,7 @@
          (try (<node f (js/Error. "Bar") 32 12 "Hello")
               (assert nil)
               (catch js/Object e (is (= "Bar" (.-message e)))))
+         (println "Done?")
          (done))))))
 
 
@@ -49,6 +50,7 @@
          (try (<node f (js/Error. "Bar") 32 12 "Hello")
               (assert nil)
               (catch js/Object e (is (= "Bar" (.-message e)))))
+         (println "Done?")
          (done))))))
 
 
