@@ -6,6 +6,7 @@
   "author": "Alexander <idokutela@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "shadow-cljs": "^2.7.13",
     "source-map-support": "^0.5.9"
   }
 }
