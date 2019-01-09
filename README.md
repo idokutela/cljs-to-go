@@ -36,6 +36,18 @@ use `<<node` if you know you need the immediacy, and if you do, make
 sure to pin the version of `core.async` so as to avoid unexpected
 breakages.*
 
+## Using the library
+
+Just add this line to `deps.edn`:
+
+```cljs
+{:deps
+ ;... other stuff
+ {;... other deps
+  github-idokutela/to-go {:git/url "https://github.com/idokutela/cljs-to-go"
+                          :sha "cb7e5d7b2b83c9998d5080fbf0dd2f1ba5326f57"}}}
+```
+
 ## Example
 
 ```cljs
