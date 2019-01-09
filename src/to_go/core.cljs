@@ -91,12 +91,7 @@
 
 
 (defn -ReadPort<-node
-  "Returns a ReadPort that wraps an thunk: a function that is called
-   with a single completion callback.
-
-   Attempting to take when the thunk has not yet completed causes the
-   ReadPort to block. Attempting to take more than once causes an
-   error."
+  "INTERNAL API: Returns a ReadPort that wraps node function call."
   [f & args]
   (let [thunk (apply partial f args)
         val (atom nil)
@@ -127,6 +122,7 @@
     port))
 
 (defn ch<-node
+  "INTERNAL API: calls a node function and returns a channel with the result."
   [f & args]
   (let [ch (async/promise-chan)
         thunk (apply partial f args)]
