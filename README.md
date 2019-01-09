@@ -38,15 +38,14 @@ breakages.*
 
 ## Using the library
 
-Just add this line to `deps.edn`:
+Just add this line to `:deps` in your `deps.edn`:
 
 ```cljs
-{:deps
- ;... other stuff
- {;... other deps
-  github-idokutela/to-go {:git/url "https://github.com/idokutela/cljs-to-go"
-                          :sha "cb7e5d7b2b83c9998d5080fbf0dd2f1ba5326f57"}}}
+github-idokutela/to-go {:git/url "https://github.com/idokutela/cljs-to-go"
+                          :sha "cb7e5d7b2b83c9998d5080fbf0dd2f1ba5326f57"}
 ```
+
+then follow the example.
 
 ## Example
 
