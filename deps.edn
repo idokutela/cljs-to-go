@@ -1,3 +1,2 @@
 {:deps
- {org.clojure/core.async {:mvn/version "0.4.490"}
-  orchestra {:mvn/version "2018.09.10-1"}}}
+ {org.clojure/core.async {:mvn/version "[0.4.0,)"}}}

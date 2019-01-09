@@ -39,10 +39,16 @@ breakages.*
 ## Example
 
 ```cljs
+(ns some.module
+  (:require
+    [cljs.core.async :refer [go]]
+    ["fs" :as fs]
+    [to-go.core :refer [<node]]))
+
 (go
   (try
-    (let [filecontents (<node (.-read fs) \"somefile.txt\")]
-      #_(... do something with the contents))
+    (let [contents (<node (.-read fs) \"somefile.txt\")]
+      (print contents)
 	  (catch Object e
 	    (println \"Error reading file!\"))))
 ```
