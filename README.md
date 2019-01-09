@@ -1,4 +1,4 @@
-# A cps transformer
+# `to-go`: A cps transformer
 
 A very simple utility that allows one to use node-style async
 functions in clojurescript go blocks. It does *not* use channels, but
@@ -49,6 +49,10 @@ breakages.*
   (try
     (let [contents (<node (.-read fs) \"somefile.txt\")]
       (print contents)
-	  (catch Object e
-	    (println \"Error reading file!\"))))
+      (catch Object e
+         (println \"Error reading file!\"))))
 ```
+
+## Miscellaneous
+
+This package is licensed under the MIT license.
