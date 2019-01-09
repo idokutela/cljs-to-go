@@ -47,10 +47,10 @@ breakages.*
 
 (go
   (try
-    (let [contents (<node (.-read fs) \"somefile.txt\")]
+    (let [contents (<node (.-read fs) "somefile.txt")]
       (print contents)
       (catch Object e
-         (println \"Error reading file!\"))))
+         (println "Error reading file!"))))
 ```
 
 ## Miscellaneous
